@@ -25,7 +25,15 @@ RUN yum update -y                   && \
     yum install -y monit            && \
     yum install -y expect           && \
     yum install -y openssl-devel    && \
+    yum install -y google-perftools && \
+    yum install -y go               && \    
+    go get -u github.com/google/pprof && \
+    rpm --import http://li.nux.ro/download/nux/RPM-GPG-KEY-nux.ro && \
+    rpm -Uvh http://li.nux.ro/download/nux/dextop/el6/x86_64/nux-dextop-release-0-2.el6.nux.noarch.rpm && \
+    yum install ffmpeg ffmpeg-devel -y && \    
     yum clean all
+
+
 
 ##############################################################################
 ##### Install media server
