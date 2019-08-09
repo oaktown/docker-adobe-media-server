@@ -26,8 +26,8 @@ RUN yum update -y                   && \
     yum install -y expect           && \
     yum install -y openssl-devel    && \
     yum install -y google-perftools && \
-    yum install -y go               && \    
-    go get -u github.com/google/pprof && \
+    yum install -y gperftools-libs  && \
+    ln -s /usr/lib64/libprofiler.so.0 /usr/lib/libprofiler.so && \
     rpm --import http://li.nux.ro/download/nux/RPM-GPG-KEY-nux.ro && \
     rpm -Uvh http://li.nux.ro/download/nux/dextop/el6/x86_64/nux-dextop-release-0-2.el6.nux.noarch.rpm && \
     yum install ffmpeg ffmpeg-devel -y && \    
@@ -69,3 +69,12 @@ EXPOSE 80 443 1111 1935
 
 # these are mappped to host ports with docker-compose
 CMD ["/usr/bin/monit_start.sh"]
+
+
+
+# Need to make sure log rotation doesn't interfere with this; 
+# i.e. turn off log rotation for the files being redirected
+# or test to make sure they don't break anything
+# forward request and error logs to docker log collector
+# RUN ln -sf /dev/stdout /var/log/nginx/access.log \
+#     && ln -sf /dev/stderr /var/log/nginx/error.log
